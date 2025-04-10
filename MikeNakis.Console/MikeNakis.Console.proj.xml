@@ -1,0 +1,51 @@
+<Project>
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<!-- AssemblyName: The default is $(MSBuildProjectName) -->
+		<AssemblyName>$(MSBuildProjectName)-$(Configuration)</AssemblyName>
+	</PropertyGroup>
+
+	<Import Project="..\AllProjects.proj.xml" />
+	<Import Project="..\SymbolBanning.proj.xml" />
+
+	<ItemGroup>
+		<PackageReference Include="MikeNakis.Kit-$(Configuration)" Version="1.1.961" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
+	</ItemGroup>
+
+	<!-- NuGet Packaging ******************************************************************************************* -->
+
+	<PropertyGroup>
+		<!-- Do not generate package on build because we want to have it as a separate github action step. -->
+		<!--<GeneratePackageOnBuild>True</GeneratePackageOnBuild>-->
+		<!-- PackageId: the default is $(MSBuildProjectName) -->
+		<!--<PackageId>$(AssemblyName)</PackageId>-->
+		<!-- Get version from environment variable, because it is computed by the build server script. -->
+		<Version>$(RELEASE_VERSION)</Version>
+		<!-- Get version prefix from environment variable, because it is computed by the build server script. -->
+		<!--<VersionPrefix>$(VERSION_PREFIX)</VersionPrefix>-->
+		<!-- Title: the default appears to be $(MSBuildProjectName) if equal to $(AssemblyName), blank otherwise. -->
+		<Title>$(MSBuildProjectName) ($(Configuration))</Title>
+		<Authors>MikeNakis</Authors>
+		<Description>A library for console applications</Description>
+		<Copyright>Copyright © Mike Nakis. All rights reserved.</Copyright>
+		<!--<PackageIcon>MikeNakis.Clio-Logo.png</PackageIcon>-->
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/mikenakis/MikeNakis.Console.git</RepositoryUrl>
+		<PublishRepositoryUrl>True</PublishRepositoryUrl>
+		<PackageTags>dotnet; class-libraries; utilities; command-line; console</PackageTags>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageReleaseNotes>initial release</PackageReleaseNotes>
+		<IncludeSymbols Condition="'$(Configuration)' == 'Release'">True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<!--<PackRelease Condition="'$(Configuration)' == 'Debug'">False</PackRelease>-->
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE.md" Pack="True" PackagePath="/" />
+		<None Include="README-for-nuget.md" Pack="True" PackagePath="/README.md" />
+	</ItemGroup>
+
+</Project>
