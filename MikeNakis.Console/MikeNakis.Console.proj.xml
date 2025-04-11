@@ -10,7 +10,7 @@
 	<Import Project="..\SymbolBanning.proj.xml" />
 
 	<ItemGroup>
-		<PackageReference Include="MikeNakis.Kit-$(Configuration)" Version="1.1.961" />
+		<PackageReference Include="MikeNakis.Kit-$(Configuration)" Version="1.*" PrivateAssets="All" />
 		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
 	</ItemGroup>
 

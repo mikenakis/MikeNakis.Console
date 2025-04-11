@@ -240,14 +240,19 @@ public static class ConsoleHelpers
 	{
 		Sys.AppDomain.CurrentDomain.FirstChanceException += ( _, e ) =>
 		{
-			if( e.Exception.Source == "WindowsBase" )
-				return;
-			if( e.Exception.Source == "System.IO.Pipes" )
-				return;
-			if( KitHelpers.FailureTesting.Value )
-				return;
-			string prefix = $"First-chance Exception Event in {e.Exception.Source}: ";
-			SysDiag.Debug.WriteLine( KitHelpers.BuildLongExceptionMessage( prefix, e.Exception ).MakeString( "\r\n" ) );
+			if( False )
+			{
+				if( e.Exception.Source == "WindowsBase" )
+					return;
+				if( e.Exception.Source == "System.IO.Pipes" )
+					return;
+				if( e.Exception.Source == "System.Net.Sockets" )
+					return;
+				if( KitHelpers.FailureTesting.Value )
+					return;
+				string prefix = $"First-chance Exception Event in {e.Exception.Source}: ";
+				SysDiag.Debug.WriteLine( KitHelpers.BuildLongExceptionMessage( prefix, e.Exception ).MakeString( "\r\n" ) );
+			}
 		};
 		Sys.AppDomain.CurrentDomain.ProcessExit += ( sender, e ) =>
 		{
