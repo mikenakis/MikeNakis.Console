@@ -1,7 +1,6 @@
 namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
-using MikeNakis.Kit.Extensions;
 using Sys = System;
 using SysConsole = System.Console;
 using SysDiag = System.Diagnostics;
@@ -11,6 +10,7 @@ using SysIo = System.IO;
 using SysDraw = System.Drawing;
 using SysGlob = System.Globalization;
 using static MikeNakis.Kit.GlobalStatics;
+using System.Runtime.ExceptionServices;
 
 #pragma warning disable RS0030 //banned symbols
 
@@ -37,7 +37,7 @@ public static class ConsoleHelpers
 			}
 
 			int result = mainFunction.Invoke();
-			DotNetHelpers.PerformGarbageCollectionAndWait();
+			//DotNetHelpers.PerformGarbageCollectionAndWait();
 			return result;
 		} );
 
@@ -238,35 +238,35 @@ public static class ConsoleHelpers
 
 	static void registerAppDomainHandlers()
 	{
-		Sys.AppDomain.CurrentDomain.FirstChanceException += ( _, e ) =>
-		{
-			if( False )
-			{
-				if( e.Exception.Source == "WindowsBase" )
-					return;
-				if( e.Exception.Source == "System.IO.Pipes" )
-					return;
-				if( e.Exception.Source == "System.Net.Sockets" )
-					return;
-				if( KitHelpers.FailureTesting.Value )
-					return;
-				string prefix = $"First-chance Exception Event in {e.Exception.Source}: ";
-				SysDiag.Debug.WriteLine( KitHelpers.BuildLongExceptionMessage( prefix, e.Exception ).MakeString( "\r\n" ) );
-			}
-		};
-		Sys.AppDomain.CurrentDomain.ProcessExit += ( sender, e ) =>
-		{
-			Assert( ReferenceEquals( sender, Sys.AppDomain.CurrentDomain ) );
-			Assert( e != null ); //e == null );
-			Log.Debug( $"Process '{Sys.AppDomain.CurrentDomain.FriendlyName}' exit code: {Sys.Environment.ExitCode}" );
-		};
-		Sys.AppDomain.CurrentDomain.UnhandledException += ( sender, e ) =>
-		{
-			Assert( sender == null ); //, Sys.AppDomain.CurrentDomain ) );
-			if( e.ExceptionObject is Sys.Exception exception )
-				Log.Error( $"AppDomain Unhandled Exception! (terminating={e.IsTerminating})", exception );
-			else
-				Log.Error( $"AppDomain Unhandled Exception! (terminating={e.IsTerminating}) : {e.ExceptionObject.GetType().FullName} : {e.ExceptionObject}" );
-		};
+		//Sys.AppDomain.CurrentDomain.FirstChanceException += firstChanceExceptionHandler;
+		Sys.AppDomain.CurrentDomain.ProcessExit += processExitHandler;
+		Sys.AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
+	}
+
+	static void firstChanceExceptionHandler( object? sender, FirstChanceExceptionEventArgs e )
+	{
+		if( e.Exception.Source == "WindowsBase" )
+			return;
+		if( e.Exception.Source == "System.IO.Pipes" )
+			return;
+		if( e.Exception.Source == "System.Net.Sockets" )
+			return;
+		//if( KitHelpers.FailureTesting.Value )
+		//	return;
+		SysDiag.Debug.WriteLine( $"First-chance Exception Event in {e.Exception.Source}: {e.Exception.GetType().FullName}: {e.Exception.Message}" );
+	}
+
+	static void processExitHandler( object? sender, Sys.EventArgs e )
+	{
+		//Assert( ReferenceEquals( sender, Sys.AppDomain.CurrentDomain ) );
+		//Assert( e != null ); //e == null );
+		SysDiag.Debug.WriteLine( $"Process '{Sys.AppDomain.CurrentDomain.FriendlyName}' exit code: {Sys.Environment.ExitCode}" );
+	}
+
+	static void unhandledExceptionHandler( object sender, Sys.UnhandledExceptionEventArgs e )
+	{
+		//Assert( sender == null );
+		string message = e.ExceptionObject is Sys.Exception exception ? $"{exception.Message}" : $"{e.ExceptionObject}";
+		SysDiag.Debug.WriteLine( $"AppDomain Unhandled Exception! (terminating={e.IsTerminating}): {e.ExceptionObject.GetType().FullName}: {message}" );
 	}
 }

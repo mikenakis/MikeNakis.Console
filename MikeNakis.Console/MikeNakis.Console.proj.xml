@@ -10,9 +10,21 @@
 	<Import Project="..\SymbolBanning.proj.xml" />
 
 	<ItemGroup>
-		<PackageReference Include="MikeNakis.Kit-$(Configuration)" Version="2.*" PrivateAssets="All" />
 		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
 	</ItemGroup>
+
+	<Choose>
+		<When Condition="Exists('..\..\MikeNakis.Kit\MikeNakis.Kit\MikeNakis.Kit.csproj')">
+			<ItemGroup>
+				<ProjectReference Include="..\..\MikeNakis.Kit\MikeNakis.Kit\MikeNakis.Kit.csproj" />
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+				<PackageReference Include="MikeNakis.Kit-$(Configuration)" Version="2.*" PrivateAssests="All" />
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
 
 	<!-- NuGet Packaging ******************************************************************************************* -->
 
