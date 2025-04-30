@@ -1,7 +1,8 @@
 <Solution>
-  <!-- Configurations>
-    <Platform Name="Any CPU" />
-    <Platform Name="x64" />
-  </Configurations -->
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Develop" />
+    <BuildType Name="Release" />
+  </Configurations>
   <Project Path="MikeNakis.Console\MikeNakis.Console.csproj" />
 </Solution>
