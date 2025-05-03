@@ -1,16 +1,6 @@
 namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
-using Sys = System;
-using SysConsole = System.Console;
-using SysDiag = System.Diagnostics;
-using SysText = System.Text;
-using SysReflect = System.Reflection;
-using SysIo = System.IO;
-using SysDraw = System.Drawing;
-using SysGlob = System.Globalization;
-using static MikeNakis.Kit.GlobalStatics;
-using System.Runtime.ExceptionServices;
 
 #pragma warning disable RS0030 //banned symbols
 
@@ -243,18 +233,18 @@ public static class ConsoleHelpers
 		Sys.AppDomain.CurrentDomain.UnhandledException += unhandledExceptionHandler;
 	}
 
-	static void firstChanceExceptionHandler( object? sender, FirstChanceExceptionEventArgs e )
-	{
-		if( e.Exception.Source == "WindowsBase" )
-			return;
-		if( e.Exception.Source == "System.IO.Pipes" )
-			return;
-		if( e.Exception.Source == "System.Net.Sockets" )
-			return;
-		//if( KitHelpers.FailureTesting.Value )
-		//	return;
-		SysDiag.Debug.WriteLine( $"First-chance Exception Event in {e.Exception.Source}: {e.Exception.GetType().FullName}: {e.Exception.Message}" );
-	}
+	//static void firstChanceExceptionHandler( object? sender, FirstChanceExceptionEventArgs e )
+	//{
+	//	if( e.Exception.Source == "WindowsBase" )
+	//		return;
+	//	if( e.Exception.Source == "System.IO.Pipes" )
+	//		return;
+	//	if( e.Exception.Source == "System.Net.Sockets" )
+	//		return;
+	//	//if( KitHelpers.FailureTesting.Value )
+	//	//	return;
+	//	SysDiag.Debug.WriteLine( $"First-chance Exception Event in {e.Exception.Source}: {e.Exception.GetType().FullName}: {e.Exception.Message}" );
+	//}
 
 	static void processExitHandler( object? sender, Sys.EventArgs e )
 	{
