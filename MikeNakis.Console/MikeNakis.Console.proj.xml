@@ -14,6 +14,8 @@
 		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
 	</ItemGroup>
 
+	<!-- PEARL: Dotnet does not support swapping between package and project dependencies. The following nonsense is
+	            necessary to work around this limitation. See https://github.com/dotnet/project-system/issues/195 -->
 	<Choose>
 		<When Condition="Exists('..\..\MikeNakis.Kit\MikeNakis.Kit\MikeNakis.Kit.csproj')">
 			<ItemGroup>
