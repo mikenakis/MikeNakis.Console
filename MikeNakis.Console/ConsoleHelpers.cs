@@ -33,8 +33,8 @@ public static class ConsoleHelpers
 
 		if( Pause )
 		{
-			SysConsole.Write( $"Terminating with exit code {exitCode}; press [Enter]: " );
-			SysConsole.ReadLine();
+			Sys.Console.Write( $"Terminating with exit code {exitCode}; press [Enter]: " );
+			Sys.Console.ReadLine();
 		}
 
 		if( isLaunchedFromGuiApplication )
@@ -49,7 +49,7 @@ public static class ConsoleHelpers
 			{
 				//When a console application is launched from a GUI application, the title of the console window is the
 				//exact full path to the executable. (It does _not_ include command-line arguments.)
-				if( SysConsole.Title == SysReflect.Assembly.GetEntryAssembly()?.Location )
+				if( Sys.Console.Title == SysReflect.Assembly.GetEntryAssembly()?.Location )
 					return true;
 
 				//When a console application is launched from a pre-existing console window running a command prompt, the
@@ -57,7 +57,7 @@ public static class ConsoleHelpers
 				//currently executing process, exactly as it was supplied to the command prompt, double quotes and all.
 				//The "console name" depends on the shortcut that started the console window, so it cannot be relied upon.
 				//(It might be the full path to cmd.exe or it might be something like "Command Prompt", or anything.)
-				if( SysConsole.Title.EndsWith( $" - {Sys.Environment.CommandLine}", Sys.StringComparison.InvariantCulture ) )
+				if( Sys.Console.Title.EndsWith( $" - {Sys.Environment.CommandLine}", Sys.StringComparison.InvariantCulture ) )
 					return false;
 			}
 
@@ -69,12 +69,12 @@ public static class ConsoleHelpers
 			//       console application has been redirected.
 			try
 			{
-				if( SysConsole.CursorTop != 0 || SysConsole.CursorLeft != 0 )
+				if( Sys.Console.CursorTop != 0 || Sys.Console.CursorLeft != 0 )
 					return false;
 			}
 			catch( SysIo.IOException )
 			{
-				//SysConsole.Error.WriteLine( $"Warning: Failed to get console cursor position: {exception.GetType().FullName}: {exception.Message}" );
+				//Sys.Console.Error.WriteLine( $"Warning: Failed to get console cursor position: {exception.GetType().FullName}: {exception.Message}" );
 				return false;
 			}
 			return true;
@@ -92,7 +92,7 @@ public static class ConsoleHelpers
 			}
 			catch( Sys.Exception e )
 			{
-				SysConsole.Error.WriteLine( $"Warning: Failed to obtain console window rectangle: {e.GetType().FullName}: {e.Message}" );
+				Sys.Console.Error.WriteLine( $"Warning: Failed to obtain console window rectangle: {e.GetType().FullName}: {e.Message}" );
 				return;
 			}
 			try
@@ -105,7 +105,7 @@ public static class ConsoleHelpers
 			}
 			catch( Sys.Exception e )
 			{
-				SysConsole.Error.WriteLine( $"Warning: Failed to save console window rectangle: {e.GetType().FullName}: {e.Message}" );
+				Sys.Console.Error.WriteLine( $"Warning: Failed to save console window rectangle: {e.GetType().FullName}: {e.Message}" );
 			}
 		}
 
@@ -129,7 +129,7 @@ public static class ConsoleHelpers
 			}
 			catch( Sys.Exception e ) // the file could exist, but be somehow corrupt, causing the application to fail to start
 			{
-				SysConsole.Error.WriteLine( $"Failed to read settings file: {e.GetType().FullName}: {e.Message}" );
+				Sys.Console.Error.WriteLine( $"Failed to read settings file: {e.GetType().FullName}: {e.Message}" );
 				return;
 			}
 			try
@@ -138,7 +138,7 @@ public static class ConsoleHelpers
 			}
 			catch( Sys.Exception e ) // as observed in the field, the file could exist, but be somehow corrupt, causing the application to fail to start
 			{
-				SysConsole.Error.WriteLine( $"Failed to realize window rectangle: {e.GetType().FullName}: {e.Message}" );
+				Sys.Console.Error.WriteLine( $"Failed to realize window rectangle: {e.GetType().FullName}: {e.Message}" );
 			}
 		}
 
@@ -193,12 +193,12 @@ public static class ConsoleHelpers
 			}
 			catch( ConsoleException exception )
 			{
-				SysConsole.Error.WriteLine( $"ERROR: {exception.Message}" );
+				Sys.Console.Error.WriteLine( $"ERROR: {exception.Message}" );
 				return -1;
 			}
 			catch( Sys.Exception exception )
 			{
-				SysConsole.Error.WriteLine( $"ERROR: unhandled exception: {exception.GetType().FullName}: {exception.Message}" );
+				Sys.Console.Error.WriteLine( $"ERROR: unhandled exception: {exception.GetType().FullName}: {exception.Message}" );
 				return -1;
 			}
 		}
@@ -211,8 +211,8 @@ public static class ConsoleHelpers
 			//        works mostly fine, EXCEPT THAT trying to set the OutputEncoding of the console blows up
 			//        with an exception saying something retarded like "the handle is invalid".
 			//        To avoid this, check whether the name of the type implementing System.Console.In is "NullStreamReader".
-			Assert( SysConsole.In.GetType().Name != "NullStreamReader" );
-			SysConsole.OutputEncoding = SysText.Encoding.UTF8;
+			Assert( Sys.Console.In.GetType().Name != "NullStreamReader" );
+			Sys.Console.OutputEncoding = SysText.Encoding.UTF8;
 		}
 
 		static void realizeConsoleWindowIcon()
@@ -220,7 +220,7 @@ public static class ConsoleHelpers
 			string assemblyLocation = SysReflect.Assembly.GetEntryAssembly()!.Location;
 			SysDraw.Icon? icon = SysDraw.Icon.ExtractAssociatedIcon( assemblyLocation );
 			if( icon == null )
-				SysConsole.Error.WriteLine( $"Warning: Failed to get associated icon of {assemblyLocation}" );
+				Sys.Console.Error.WriteLine( $"Warning: Failed to get associated icon of {assemblyLocation}" );
 			else
 				ConsoleNativeMethods.SetConsoleWindowIconHandle( icon.Handle );
 		}
