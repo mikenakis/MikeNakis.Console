@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<Import Project="..\AllProjects.proj.xml" />
-	<Import Project="..\SymbolBanning.proj.xml" />
+	<Import Project="..\BannedApiAnalyzers.proj.xml" />
 
 	<ItemGroup>
 		<PackageReference Include="System.Drawing.Common" Version="8.0.3" />
