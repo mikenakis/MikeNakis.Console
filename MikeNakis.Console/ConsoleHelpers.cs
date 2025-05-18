@@ -198,7 +198,7 @@ public static class ConsoleHelpers
 			}
 			catch( Sys.Exception exception )
 			{
-				Sys.Console.Error.WriteLine( $"ERROR: unhandled exception: {exception.GetType().FullName}: {exception.Message}" );
+				Sys.Console.Error.WriteLine( KitHelpers.BuildShortExceptionMessage( $"ERROR: unhandled exception", exception ) );
 				return -1;
 			}
 		}
