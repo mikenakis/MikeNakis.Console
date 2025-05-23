@@ -248,7 +248,7 @@ public static class ConsoleHelpers
 
 	static void processExitHandler( object? sender, Sys.EventArgs e )
 	{
-		//Assert( ReferenceEquals( sender, Sys.AppDomain.CurrentDomain ) );
+		//Assert( sender.ReferenceEquals( Sys.AppDomain.CurrentDomain ) );
 		//Assert( e != null ); //e == null );
 		SysDiag.Debug.WriteLine( $"Process '{Sys.AppDomain.CurrentDomain.FriendlyName}' exit code: {Sys.Environment.ExitCode}" );
 	}
