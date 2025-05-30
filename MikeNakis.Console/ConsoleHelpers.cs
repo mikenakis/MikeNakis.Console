@@ -1,6 +1,7 @@
 namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
+using MikeNakis.Kit.Extensions;
 
 #pragma warning disable RS0030 //banned symbols
 
@@ -163,7 +164,7 @@ public static class ConsoleHelpers
 
 		static string getMainModuleName()
 		{
-			string mainModuleName = NotNull( SysDiag.Process.GetCurrentProcess().MainModule ).ModuleName;
+			string mainModuleName = SysDiag.Process.GetCurrentProcess().MainModule.OrThrow().ModuleName;
 			const string exeExtension = ".exe";
 			Assert( mainModuleName.EndsWith( exeExtension, Sys.StringComparison.OrdinalIgnoreCase ) );
 			return mainModuleName[..^exeExtension.Length];
