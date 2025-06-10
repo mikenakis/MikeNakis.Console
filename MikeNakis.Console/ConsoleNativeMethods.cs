@@ -136,8 +136,8 @@ public static class ConsoleNativeMethods
 		// least partially visible in at least one of them.
 		// Also, to properly do this we should keep track of different monitor configurations we have seen in the past
 		// and remember a different window rectangle for each monitor configuration.
-		windowRectangle.W = Sys.Math.Max( 100, windowRectangle.W );
-		windowRectangle.H = Sys.Math.Max( 100, windowRectangle.H );
+		windowRectangle.W = Math.Max( 100, windowRectangle.W );
+		windowRectangle.H = Math.Max( 100, windowRectangle.H );
 		nint desktopWindowHandle = GetDesktopWindow();
 		if( desktopWindowHandle == 0 )
 		{
@@ -147,10 +147,10 @@ public static class ConsoleNativeMethods
 		RECT desktopWindowRectangle = new();
 		bool ok = GetWindowRect( desktopWindowHandle, ref desktopWindowRectangle );
 		Assert( ok );
-		windowRectangle.X1 = Sys.Math.Max( windowRectangle.X1, desktopWindowRectangle.X1 );
-		windowRectangle.Y1 = Sys.Math.Max( windowRectangle.Y1, desktopWindowRectangle.Y1 );
-		windowRectangle.X2 = Sys.Math.Min( windowRectangle.X2, desktopWindowRectangle.X2 );
-		windowRectangle.Y2 = Sys.Math.Min( windowRectangle.Y2, desktopWindowRectangle.Y2 );
+		windowRectangle.X1 = Math.Max( windowRectangle.X1, desktopWindowRectangle.X1 );
+		windowRectangle.Y1 = Math.Max( windowRectangle.Y1, desktopWindowRectangle.Y1 );
+		windowRectangle.X2 = Math.Min( windowRectangle.X2, desktopWindowRectangle.X2 );
+		windowRectangle.Y2 = Math.Min( windowRectangle.Y2, desktopWindowRectangle.Y2 );
 	}
 
 	static void moveWindow( nint windowHandle, RECT rect )
