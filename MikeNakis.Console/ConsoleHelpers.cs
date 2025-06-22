@@ -184,22 +184,22 @@ public static class ConsoleHelpers
 
 		static int invokeSafe( Sys.Func<int> function )
 		{
-			if( SysDiag.Debugger.IsAttached )
-			{
-				return function.Invoke();
-			}
 			try
 			{
 				return function.Invoke();
 			}
-			catch( ConsoleException exception )
+			catch( ApplicationException exception )
 			{
 				Sys.Console.Error.WriteLine( $"ERROR: {exception.Message}" );
+				if( exception.InnerException != null )
+					Sys.Console.Error.WriteLine( KitHelpers.BuildShortExceptionMessage( $"    due to", exception.InnerException ) );
 				return -1;
 			}
 			catch( Sys.Exception exception )
 			{
 				Sys.Console.Error.WriteLine( KitHelpers.BuildShortExceptionMessage( $"ERROR: unhandled exception", exception ) );
+				if( SysDiag.Debugger.IsAttached )
+					throw;
 				return -1;
 			}
 		}
