@@ -213,7 +213,7 @@ public static class ConsoleHelpers
 			//        with an exception saying something retarded like "the handle is invalid".
 			//        To avoid this, check whether the name of the type implementing System.Console.In is "NullStreamReader".
 			Assert( Sys.Console.In.GetType().Name != "NullStreamReader" );
-			Sys.Console.OutputEncoding = SysText.Encoding.UTF8;
+			Sys.Console.OutputEncoding = DotNetHelpers.BomlessUtf8;
 		}
 
 		static void realizeConsoleWindowIcon()
