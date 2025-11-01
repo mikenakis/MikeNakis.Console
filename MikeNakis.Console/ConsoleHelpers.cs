@@ -2,6 +2,7 @@ namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
 using MikeNakis.Kit.Extensions;
+using SysDraw = Sys.Drawing;
 
 #pragma warning disable RS0030 //banned symbols
 
