@@ -2,7 +2,12 @@ namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
 using MikeNakis.Kit.Extensions;
-using SysDraw = Sys.Drawing;
+using Sys = System;
+using SysDiag = System.Diagnostics;
+using SysDraw = System.Drawing;
+using SysGlob = System.Globalization;
+using SysIo = System.IO;
+using SysReflect = System.Reflection;
 
 #pragma warning disable RS0030 //banned symbols
 

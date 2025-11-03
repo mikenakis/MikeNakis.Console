@@ -1,6 +1,11 @@
 namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
+using Math = System.Math;
+using Sys = System;
+using SysCompModel = System.ComponentModel;
+using SysGlob = System.Globalization;
+using SysInterop = System.Runtime.InteropServices;
 
 #pragma warning disable CA1045 // Do not pass types by reference
 #pragma warning disable CA1707 // Identifiers should not contain underscores
