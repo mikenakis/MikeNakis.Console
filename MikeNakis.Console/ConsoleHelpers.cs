@@ -2,6 +2,7 @@ namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
 using MikeNakis.Kit.Extensions;
+using static MikeNakis.Kit.GlobalStatics;
 using Sys = System;
 using SysDiag = System.Diagnostics;
 using SysDraw = System.Drawing;

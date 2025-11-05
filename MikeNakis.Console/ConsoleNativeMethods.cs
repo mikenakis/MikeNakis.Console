@@ -1,6 +1,7 @@
 namespace MikeNakis.Console;
 
 using MikeNakis.Kit;
+using static MikeNakis.Kit.GlobalStatics;
 using Math = System.Math;
 using Sys = System;
 using SysCompModel = System.ComponentModel;
