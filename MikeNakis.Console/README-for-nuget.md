@@ -1,9 +1,8 @@
-# MikeNakis.Console
-## A small library for console applications
-
 <!--- PEARL: nuget does not support any HTML in markdown, and it does not support images at all, not even in markdown syntax. -->
 
-See the README.md in the repository of this project: https://github.com/mikenakis/MikeNakis.Console
+nuget.org pretends to support markdown, but their support is lame beyond words, so:
+
+Please visit this project on GitHub and see the README.md file.
 
 ## License
 
