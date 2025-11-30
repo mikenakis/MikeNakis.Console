@@ -1,6 +1,7 @@
 <Solution>
   <Configurations>
     <BuildType Name="Debug" />
+    <BuildType Name="Optimized" />
     <BuildType Name="Develop" />
     <BuildType Name="Release" />
   </Configurations>
