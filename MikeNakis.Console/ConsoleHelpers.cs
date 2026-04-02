@@ -171,7 +171,7 @@ public static class ConsoleHelpers
 
 		static string getMainModuleName()
 		{
-			string mainModuleName = SysDiag.Process.GetCurrentProcess().MainModule.OrThrow().ModuleName;
+			string mainModuleName = DotNetHelpers.CurrentProcess.MainModule.OrThrow().ModuleName;
 			const string exeExtension = ".exe";
 			Assert( mainModuleName.EndsWith( exeExtension, Sys.StringComparison.OrdinalIgnoreCase ) );
 			return mainModuleName[..^exeExtension.Length];
