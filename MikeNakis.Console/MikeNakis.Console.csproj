@@ -47,7 +47,7 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<PackageReference Include="MikeNakis.Kit-$(PackagesConfiguration)" Version="5.*" PrivateAssests="All" />
+				<PackageReference Include="MikeNakis.Kit-$(PackagesConfiguration)" Version="5.4.*" PrivateAssests="All" />
 			</ItemGroup>
 		</Otherwise>
 	</Choose>
