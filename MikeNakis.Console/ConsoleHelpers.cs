@@ -31,7 +31,7 @@ public static class ConsoleHelpers
 				restoreWindowRectangle();
 				if( hasIcon )
 					realizeConsoleWindowIcon();
-				setConsoleOutputEncoding();
+				setConsoleEncoding();
 			}
 
 			int result = mainFunction.Invoke();
@@ -218,7 +218,7 @@ public static class ConsoleHelpers
 			}
 		}
 
-		static void setConsoleOutputEncoding()
+		static void setConsoleEncoding()
 		{
 			// PEARL: A wrong choice of project output type can cause mysterious console-related failures.
 			//        If the "OutputType" property in the project file is set to "Exe", then the console works fine.
@@ -228,6 +228,8 @@ public static class ConsoleHelpers
 			//        To avoid this, check whether the name of the type implementing System.Console.In is "NullStreamReader".
 			Assert( Sys.Console.In.GetType().Name != "NullStreamReader" );
 			Sys.Console.OutputEncoding = DotNetHelpers.BomlessUtf8;
+			Sys.Console.InputEncoding = DotNetHelpers.BomlessUtf8;
+			Sys.Console.Clear();
 		}
 
 		static void realizeConsoleWindowIcon()
