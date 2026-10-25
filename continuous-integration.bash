@@ -9,7 +9,8 @@ function do_build()
 	[[ $dry_run == true ]] && return
 	# [Claude] Restore again for each configuration, because the assets file in 'obj' is shared by all configurations.
 	#    Package references depend on the configuration (e.g. 'MikeNakis.Kit-$(PackagesConfiguration)'), so a 'Release'
-	#    build that reuses a 'Debug' restore compiles against, and its package depends on, the 'Develop' packages.
+	#    build that would reuse a 'Debug' restore would compile against, and its package would depend on, the 'Develop'
+	#    packages.
 	dotnet restore -check --verbosity minimal --property:Configuration="$configuration"
 	dotnet build -check --verbosity minimal --configuration "$configuration" --no-restore
 }
@@ -60,7 +61,7 @@ function do_publish()
 
 function run()
 {
-	run_this_script_in_its_directory
+	run_this_script_in_its_directory "$@"
 
 	declare project_name=""
 	declare github_packages_nuget_api_key=""
@@ -125,12 +126,12 @@ function run()
 	fi
 	
 	# The logic:
-	#   Restore before building each configuration, since restore results depend on the configuration.
 	#   Build and test the 'Debug' configuration, or the 'Optimized' configuration if one has been defined.
 	#   If we are publishing, then:
 	#     If this is a library, or an exe packaged as tool, then:
 	#       Build and publish the 'Develop' configuration, if defined.
 	#       Build and publish the 'Release' configuration, if defined.
+	#   [Claude] Restore before building each configuration, since restore results depend on the configuration.
 
 	if [[ "$configurations" == *Optimized* ]]; then
 
