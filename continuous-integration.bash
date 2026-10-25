@@ -2,18 +2,15 @@
 
 source definitions.bash > /dev/null
 
-function do_restore()
-{
-	info "Restore"
-	[[ $dry_run == true ]] && return
-	dotnet restore -check --verbosity minimal
-}
-
 function do_build()
 {
 	declare -r configuration=$1
 	info "Build '$1' configuration"
 	[[ $dry_run == true ]] && return
+	# [Claude] Restore again for each configuration, because the assets file in 'obj' is shared by all configurations.
+	#    Package references depend on the configuration (e.g. 'MikeNakis.Kit-$(PackagesConfiguration)'), so a 'Release'
+	#    build that reuses a 'Debug' restore compiles against, and its package depends on, the 'Develop' packages.
+	dotnet restore -check --verbosity minimal --property:Configuration="$configuration"
 	dotnet build -check --verbosity minimal --configuration "$configuration" --no-restore
 }
 
@@ -128,14 +125,12 @@ function run()
 	fi
 	
 	# The logic:
-	#   Do a dotnet restore.
+	#   Restore before building each configuration, since restore results depend on the configuration.
 	#   Build and test the 'Debug' configuration, or the 'Optimized' configuration if one has been defined.
 	#   If we are publishing, then:
 	#     If this is a library, or an exe packaged as tool, then:
 	#       Build and publish the 'Develop' configuration, if defined.
 	#       Build and publish the 'Release' configuration, if defined.
-
-	do_restore
 
 	if [[ "$configurations" == *Optimized* ]]; then
 
